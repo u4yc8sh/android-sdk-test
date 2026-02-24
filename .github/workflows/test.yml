@@ -1,19 +1,21 @@
 name: CI
 
-
 on:
-
   workflow_dispatch:
 
-
 jobs:
-  
   test:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-     
+        uses: android-actions/setup-android@v3.2.2
+
+      - name: Upload Android SDK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-sdk-bundle
+          # We use the environment variable to locate the path dynamically
+          path: ${{ env.ANDROID_HOME }}
+          # Optional: SDKs are large, so you might want to set a short retention
+          retention-days: 5
